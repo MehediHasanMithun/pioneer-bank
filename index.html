@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pioneer Bank</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="login-area">
+        <h1 class="text-center">Welcome to Pioneer Bank</h1>
+
+        <div class="submit-area">
+            <h4>Login</h4>
+            <input type="text" class="form-control" placeholder="Email">
+            <br>
+            <input type="password" class="form-control" placeholder="Password">
+            <br>
+            <button type="submit" class="btn btn-success" id="login-btn">Enter</button>
+
+        </div>
+    </div>
+
+    <div id="transaction-area">
+        <div class="row">
+            <div class="col-md-4 col-sm-12">
+                <div id="deposit" class="box">
+                    <h5>Deposit</h5>
+                    <h2>$ <span id="deposit-value">00</span></h2>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <div id="withdraw" class="box">
+                    <h5>withdraw</h5>
+                    <h2 id="message">$ <span id="withdraw-value">00</span></h2>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <div id="balance" class="box">
+                    <h5>Balance</h5>
+                    <h2>$ <span id="balance-value">1240</span></h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div id="deposit-input-box" class="input-box">
+                    <h4>Deposit</h4>
+                    <input type="number" id="deposit-num" class="form-control"
+                        placeholder="$ amount you want to deposit">
+                    <br>
+                    <button type="submit" class="btn btn-success" id="deposit-btn">Deposit</button>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+                <div id="withdraw-input-box" class="input-box">
+                    <h4>withdraw</h4>
+                    <input type="number" id="withdraw-num" class="form-control"
+                        placeholder="$ amount you want to withdraw">
+                    <br>
+                    <button type="submit" class="btn btn-success" id="withdraw-btn">withdraw</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        //login button event handler
+        var loginBtn = document.getElementById("login-btn");
+        loginBtn.addEventListener("click", function () {
+            document.getElementById("login-area").style.display = "none";
+            document.getElementById("transaction-area").style.display = "block";
+        });
+
+        //deposit button event handler
+        var depositBtn = document.getElementById("deposit-btn");
+        depositBtn.addEventListener("click", function () {
+            var deposit = getInputNumber("deposit-num");
+            deposit = parseFloat(deposit);
+
+            updateValue("balance-value", deposit);
+            updateValue("deposit-value", deposit);
+
+            document.getElementById("deposit-num").value = "";
+        });
+
+        function updateValue(id, addAmount) {
+            var current = document.getElementById(id).innerText;
+            current = parseFloat(current);
+            var total = current + addAmount;
+            document.getElementById(id).innerHTML = total;
+        }
+        function getInputNumber(id){
+            var number = document.getElementById(id).value;
+            number = parseFloat(number);
+            return number;
+        }
+
+
+        //withdraw button event handler
+        var withdrawBtn = document.getElementById("withdraw-btn");
+        withdrawBtn.addEventListener("click", function () {
+
+            var withdraw = getInputNumber("withdraw-num");
+            var balance = document.getElementById("balance-value").innerText;
+            balance = parseFloat(balance);
+
+            if (balance - withdraw < 0) {
+                var message = "Insufficient Balance. Please Deposit Amount";
+                alert(message);
+            }
+            else {
+                updateValue("withdraw-value", withdraw);
+                var newBalance = balance - withdraw;
+                document.getElementById("balance-value").innerHTML = newBalance;
+            }
+
+            document.getElementById("withdraw-num").value = "";
+        });
+
+
+
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
